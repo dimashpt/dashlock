@@ -90,6 +90,10 @@ chmod +x build.sh
 - `minSdk 24`, `targetSdk 29`, package `id.sooon.dashlock`
 - Production signing: add `dashlock.keystore` or set `DASHLOCK_KS_PASS`
 
+## Disclaimer
+
+DashLock is provided **as-is**, without warranty of any kind. You use it **at your own risk**. The author is **not liable** for any damage, data loss, distraction while driving, misconfiguration, or other harm arising from installing or using this software.
+
 ## Limitations
 
 - **POWER** cannot be fully blocked.

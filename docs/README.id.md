@@ -83,6 +83,10 @@ chmod +x build.sh
 - `minSdk 24`, `targetSdk 29`, package `id.sooon.dashlock`
 - Rilis produksi: siapkan `dashlock.keystore` atau set `DASHLOCK_KS_PASS`
 
+## Disclaimer
+
+DashLock disediakan **apa adanya** (*as-is*), tanpa jaminan apa pun. Anda memakainya **atas risiko sendiri**. Penulis **tidak bertanggung jawab** atas kerusakan, kehilangan data, gangguan saat berkendara, salah konfigurasi, atau dampak lain dari pemasangan atau penggunaan aplikasi ini.
+
 ## Batasan
 
 - Tombol **POWER** tidak bisa diblok sepenuhnya.
