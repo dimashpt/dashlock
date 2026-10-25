@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -26,15 +27,19 @@ final class FabView extends View {
         void onUnlockHoldCancelled();
     }
 
-    static final int SIZE_DP = 84;
+    static final int SIZE_DP = 56;
+    private static final float ALPHA_IDLE = 0.20f;
+    private static final float ALPHA_ACTIVE = 0.80f;
+    private static final long FADE_IDLE_DELAY_MS = 2000;
     private static final int HOLD_ARM_MS = 200;
     private static final int TAP_TIMEOUT_MS = 450;
 
     private final Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint border = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint ring = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint icon = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Drawable iconLocked;
+    private final Drawable iconUnlocked;
     private final RectF arc = new RectF();
-    private final RectF tmp = new RectF();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final int touchSlop;
     private int sizePx;
@@ -42,6 +47,7 @@ final class FabView extends View {
     Listener listener;
     boolean locked;
 
+    private float visualAlpha = ALPHA_IDLE;
     private float downRawX, downRawY;
     private boolean dragging;
     private boolean holdArmed;
@@ -52,6 +58,11 @@ final class FabView extends View {
 
     private int tapCount;
     private long lastTapAt;
+
+    private final Runnable fadeIdleRunnable = () -> {
+        visualAlpha = ALPHA_IDLE;
+        invalidate();
+    };
 
     private final Runnable armRunnable = () -> {
         if (dragging) return;
@@ -69,15 +80,17 @@ final class FabView extends View {
         super(c);
         touchSlop = ViewConfiguration.get(c).getScaledTouchSlop();
         sizePx = sizePx(c);
-        fill.setColor(0x80FFB000);
-        ring.setColor(0xCC0B0B0A);
+        fill.setColor(0xFF000000);
+        border.setColor(0xFF9A9A9A);
+        border.setStyle(Paint.Style.STROKE);
+        border.setStrokeWidth(sizePx * 0.045f);
+        ring.setColor(0xFFFFFFFF);
         ring.setStyle(Paint.Style.STROKE);
-        ring.setStrokeWidth(sizePx * 0.06f);
-        icon.setColor(0xFF0B0B0A);
-        icon.setStyle(Paint.Style.STROKE);
-        icon.setStrokeWidth(sizePx * 0.065f);
-        icon.setStrokeCap(Paint.Cap.ROUND);
-        icon.setStrokeJoin(Paint.Join.ROUND);
+        ring.setStrokeWidth(sizePx * 0.07f);
+        iconLocked = c.getResources().getDrawable(R.drawable.ic_fab_lock, c.getTheme());
+        iconUnlocked = c.getResources().getDrawable(R.drawable.ic_fab_lock_open, c.getTheme());
+        if (iconLocked != null) iconLocked.mutate();
+        if (iconUnlocked != null) iconUnlocked.mutate();
         unlockHoldMs = unlockHoldMs(c);
     }
 
@@ -94,8 +107,8 @@ final class FabView extends View {
         int newSize = sizePx(getContext());
         if (newSize != sizePx) {
             sizePx = newSize;
-            ring.setStrokeWidth(sizePx * 0.06f);
-            icon.setStrokeWidth(sizePx * 0.065f);
+            border.setStrokeWidth(sizePx * 0.045f);
+            ring.setStrokeWidth(sizePx * 0.07f);
             requestLayout();
         }
         invalidate();
@@ -119,6 +132,21 @@ final class FabView extends View {
             if (listener != null) listener.onUnlockHoldCancelled();
         }
         invalidate();
+    }
+
+    private void setActiveVisual() {
+        handler.removeCallbacks(fadeIdleRunnable);
+        visualAlpha = ALPHA_ACTIVE;
+        invalidate();
+    }
+
+    private void scheduleFadeIdle() {
+        handler.removeCallbacks(fadeIdleRunnable);
+        handler.postDelayed(fadeIdleRunnable, FADE_IDLE_DELAY_MS);
+    }
+
+    private int alphaByte() {
+        return Math.max(0, Math.min(255, (int) (visualAlpha * 255f + 0.5f)));
     }
 
     private void startUnlockHold() {
@@ -151,48 +179,43 @@ final class FabView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        int a = alphaByte();
+        fill.setAlpha(a);
+        border.setAlpha(a);
+        ring.setAlpha(a);
+
         float cx = getWidth() / 2f;
         float cy = getHeight() / 2f;
-        float pad = ring.getStrokeWidth();
-        float r = sizePx / 2f - pad;
-        canvas.drawCircle(cx, cy, r, fill);
+        float borderW = border.getStrokeWidth();
+        float fillR = sizePx / 2f - borderW;
+        float borderR = sizePx / 2f - borderW / 2f;
+        canvas.drawCircle(cx, cy, fillR, fill);
+        canvas.drawCircle(cx, cy, borderR, border);
         if (unlockHolding && holdProgress > 0f) {
-            arc.set(cx - r, cy - r, cx + r, cy + r);
+            arc.set(cx - fillR, cy - fillR, cx + fillR, cy + fillR);
             canvas.drawArc(arc, -90, 360f * holdProgress, false, ring);
         }
-        drawPadlock(canvas, cx, cy, r * 0.46f, locked);
+        drawFabIcon(canvas, cx, cy, fillR, a);
     }
 
-    /** Gembok klasik: terkunci = shackle tertutup; terbuka = shackle terangkat. */
-    private void drawPadlock(Canvas c, float cx, float cy, float scale, boolean isLocked) {
-        float bodyW = scale * 1.05f;
-        float bodyH = scale * 0.85f;
-        float bodyLeft = cx - bodyW / 2f;
-        float bodyTop = cy + scale * 0.05f;
-        tmp.set(bodyLeft, bodyTop, bodyLeft + bodyW, bodyTop + bodyH);
-        c.drawRoundRect(tmp, scale * 0.12f, scale * 0.12f, icon);
-
-        float shW = bodyW * 0.78f;
-        float shH = scale * 0.95f;
-        float shLeft = cx - shW / 2f;
-        float shTop = bodyTop - shH * 0.72f;
-        arc.set(shLeft, shTop, shLeft + shW, shTop + shH);
-        if (isLocked) {
-            c.drawArc(arc, 200, 140, false, icon);
-        } else {
-            c.drawArc(arc, 200, 110, false, icon);
-            c.drawLine(shLeft + shW * 0.92f, shTop + shH * 0.38f,
-                    bodyLeft + bodyW * 0.15f, bodyTop + scale * 0.08f, icon);
-        }
-        if (isLocked) {
-            c.drawLine(cx, bodyTop + bodyH * 0.42f, cx, bodyTop + bodyH * 0.72f, icon);
-        }
+    private void drawFabIcon(Canvas canvas, float cx, float cy, float r, int alpha) {
+        Drawable d = locked ? iconLocked : iconUnlocked;
+        if (d == null) return;
+        float half = r * 0.34f;
+        int left = (int) (cx - half);
+        int top = (int) (cy - half);
+        int right = (int) (cx + half);
+        int bottom = (int) (cy + half);
+        d.setBounds(left, top, right, bottom);
+        d.setAlpha(alpha);
+        d.draw(canvas);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                setActiveVisual();
                 unlockHoldMs = unlockHoldMs(getContext());
                 downRawX = event.getRawX();
                 downRawY = event.getRawY();
@@ -202,6 +225,7 @@ final class FabView extends View {
                 handler.postDelayed(armRunnable, HOLD_ARM_MS);
                 return true;
             case MotionEvent.ACTION_MOVE:
+                setActiveVisual();
                 float dx = event.getRawX() - downRawX;
                 float dy = event.getRawY() - downRawY;
                 if (!dragging && (Math.hypot(dx, dy) > touchSlop)) {
@@ -221,6 +245,7 @@ final class FabView extends View {
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                scheduleFadeIdle();
                 handler.removeCallbacks(armRunnable);
                 if (dragging && listener != null && getLayoutParams() instanceof WindowManager.LayoutParams) {
                     WindowManager.LayoutParams lp = (WindowManager.LayoutParams) getLayoutParams();

@@ -37,7 +37,7 @@ Settings on a head unit (landscape), with the semi-transparent floating DashLock
 
 ## Download
 
-Release APK: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.1.0.apk`).
+Release APK: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.1.1.apk`).
 
 ## Requirements
 
@@ -92,7 +92,7 @@ Turn off **Enable DashLock** to hide the button (only when the screen is **not**
 ```bash
 chmod +x build.sh
 ./build.sh              # build/dashlock.apk (debug keystore)
-./build.sh release      # build/dashlock-1.1.0.apk
+./build.sh release      # build/dashlock-1.1.1.apk
 ./build.sh install      # DEVICE=ip:5555
 ```
 
