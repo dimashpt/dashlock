@@ -15,6 +15,14 @@ Tested on **8227L** and **NWD K2401** head units (landscape 1280×720). Plain Ja
   <sub>Independent project; not affiliated with any head unit vendor or other app.</sub>
 </p>
 
+## Screenshots
+
+Settings on a head unit (landscape), with the semi-transparent floating DashLock button on the right:
+
+<p align="center">
+  <img src="docs/screenshots/snapshot.png" alt="DashLock settings screen and floating lock button on an Android head unit" width="720">
+</p>
+
 ## Features
 
 - **Floating overlay** — semi-transparent yellow button; drag to move; snaps to left or right edge.

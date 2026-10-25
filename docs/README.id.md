@@ -8,6 +8,14 @@ Diuji di head unit **8227L** dan **NWD K2401** (landscape 1280×720). Java murni
 
 <p align="center"><sub>Proyek mandiri; tidak berafiliasi dengan produsen head unit maupun aplikasi lain.</sub></p>
 
+## Tangkapan layar
+
+Pengaturan di head unit (landscape), dengan tombol floating DashLock di kanan:
+
+<p align="center">
+  <img src="screenshots/snapshot.png" alt="Layar pengaturan DashLock dan tombol kunci floating di head unit Android" width="720">
+</p>
+
 ## Fitur
 
 - **Overlay floating** — tombol kuning semi-transparan, bisa digeser; menempel kiri/kanan saat dilepas.
