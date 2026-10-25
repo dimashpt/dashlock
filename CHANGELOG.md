@@ -1,29 +1,26 @@
 # Changelog
 
-Format berdasarkan [Keep a Changelog](https://keepachangelog.com/).
+All notable changes to this project are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2026-10-25
 
-Rilis pertama DashLock — kunci layar untuk head unit Android dengan overlay floating dan blok tombol sistem.
+First stable release of DashLock — screen lock for Android head units with a floating overlay and system key blocking.
 
 ### Added
 
-- Foreground service + overlay layar penuh saat terkunci, tombol floating draggable (snap kiri/kanan).
-- Layanan aksesibilitas: blok HOME, BACK, recent, volume, dan media saat terkunci.
-- Gestur kunci (tahan ~200 ms) dengan konfirmasi opsional.
-- Gestur buka: tahan 1–3 detik atau ketuk 3×; PIN opsional dengan hash SHA-256.
-- Pengaturan: toggle aktif, konfirmasi kunci, PIN buka kunci, mode & durasi gestur.
-- Toast 「Layar dikunci」 / 「Layar dibuka」.
-- Dialog PIN di overlay dengan keyboard otomatis dan submit lewat IME Done.
-- Start otomatis setelah boot / user unlock / update APK bila DashLock masih aktif.
-- UI pengaturan per section: Status, Kunci, Buka kunci, Izin.
-- Build tanpa Gradle (`aapt2`, `javac`, `d8`); Android 7+ (API 24).
-
-### Fixed
-
-- Izin overlay: deklarasi `SYSTEM_ALERT_WINDOW` agar toggle tidak abu-abu di head unit.
-- Layer modal layar penuh yang menahan semua sentuhan termasuk tombol floating.
-- Deteksi aksesibilitas via `Settings.Secure` pada firmware head unit.
-- Urutan window overlay agar tombol floating selalu di atas perisai.
+- Foreground service and full-screen shield while locked; draggable floating button (snap to left/right).
+- Accessibility service: block HOME, BACK, recents, volume, and media keys while locked.
+- Lock gesture (~200 ms hold) with optional confirmation dialog.
+- Unlock gestures: hold 1–3 seconds or triple-tap; optional PIN with SHA-256 hash + salt.
+- Settings: enable toggle, lock confirmation, unlock PIN, gesture mode and hold duration.
+- Toasts when the screen is locked or unlocked.
+- PIN dialog on the overlay with automatic keyboard and IME Done to submit.
+- Auto-start after boot, user unlock, or APK update when DashLock remains enabled.
+- Settings UI grouped into sections: Status, Lock, Unlock, Permissions.
+- Build without Gradle (`aapt2`, `javac`, `d8`); Android 7+ (API 24).
+- Package name `id.sooon.dashlock`.
 
 [1.0.0]: https://github.com/dimashpt/dashlock/releases/tag/v1.0.0

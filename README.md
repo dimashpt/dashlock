@@ -1,8 +1,8 @@
 # DashLock
 
-Kunci layar untuk **head unit Android** (Android 7+): tombol floating di atas semua aplikasi, blok sentuhan saat terkunci, dan blok tombol **HOME / BACK / volume** lewat layanan **Aksesibilitas** saat terkunci.
+Screen lock for **Android head units** (Android 7+): a floating button over any app, touch blocking while locked, and **HOME / BACK / volume** blocking via an **Accessibility** service when locked.
 
-Dikembangkan dan diuji di head unit **8227L** dan **NWD K2401** (landscape 1280×720). Java murni, tanpa Gradle.
+Tested on **8227L** and **NWD K2401** head units (landscape 1280×720). Plain Java, no Gradle.
 
 <p align="center">
   <a href="https://github.com/dimashpt/dashlock/releases/latest"><img src="https://img.shields.io/github/v/release/dimashpt/dashlock?label=release" alt="Release"></a>
@@ -10,72 +10,75 @@ Dikembangkan dan diuji di head unit **8227L** dan **NWD K2401** (landscape 1280�
   <img src="https://img.shields.io/badge/build-aapt2%20%2B%20javac-lightgrey" alt="No Gradle">
 </p>
 
-<p align="center"><sub>Proyek mandiri; tidak berafiliasi dengan produsen head unit maupun aplikasi lain.</sub></p>
+<p align="center">
+  <b>Bahasa Indonesia:</b> <a href="docs/README.id.md">docs/README.id.md</a><br>
+  <sub>Independent project; not affiliated with any head unit vendor or other app.</sub>
+</p>
 
-## Fitur
+## Features
 
-- **Overlay floating** — tombol kuning semi-transparan, bisa digeser; menempel kiri/kanan saat dilepas.
-- **Kunci layar** — sentuhan ke aplikasi di bawah diblok; hanya tombol DashLock yang aktif.
-- **Aksesibilitas** — saat terkunci, tombol sistem (HOME, BACK, recent, volume, media) ditahan.
-- **Konfirmasi kunci** — opsional (default **aktif**).
-- **Buka kunci** — tahan 1–3 detik **atau** ketuk 3×; PIN opsional (default **tanpa PIN**, cukup gestur).
-- **PIN** — hash SHA-256 + salt; keyboard otomatis saat PIN wajib; tombol centang keyboard = submit.
-- **Toast** — 「Layar dikunci」 / 「Layar dibuka」.
-- **Setelah reboot** — jika DashLock terakhir aktif, layanan overlay menyala lagi (boot + user unlock).
+- **Floating overlay** — semi-transparent yellow button; drag to move; snaps to left or right edge.
+- **Screen lock** — touches do not reach apps below; only the DashLock button stays active.
+- **Accessibility** — while locked, blocks system keys (HOME, BACK, recents, volume, media).
+- **Lock confirmation** — optional (default **on**).
+- **Unlock** — hold 1–3 seconds **or** triple-tap; optional PIN (default **gesture only**).
+- **PIN** — SHA-256 hash + salt; keyboard auto-shown when PIN is required; IME Done submits.
+- **Toasts** — “Screen locked” / “Screen unlocked” (Indonesian strings in the app UI).
+- **After reboot** — restarts automatically if DashLock was left enabled (boot + user unlock).
 
-## Unduh
+## Download
 
-APK rilis: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.0.0.apk`).
+Release APK: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.0.0.apk`).
 
-## Persyaratan
+## Requirements
 
-| Izin | Untuk apa |
-|------|-----------|
-| Tampil di atas aplikasi lain | Overlay perisai + tombol floating |
-| Layanan aksesibilitas DashLock | Blok tombol fisik/virtual saat terkunci |
-| Notifikasi (foreground service) | DashLock tetap jalan di latar |
+| Permission | Purpose |
+|------------|---------|
+| Display over other apps | Shield overlay + floating button |
+| DashLock accessibility service | Block hardware/on-screen keys while locked |
+| Notification (foreground service) | Keep DashLock running in the background |
 
-## Setup pertama
+## First-time setup
 
-1. Pasang APK → buka **DashLock**.
-2. Di section **Izin** → izinkan **overlay** dan aktifkan **DashLock** di pengaturan aksesibilitas.  
-   Jika toggle overlay abu-abu, pasang ulang APK terbaru atau:
+1. Install the APK and open **DashLock**.
+2. Under **Permissions**, allow **overlay** and enable **DashLock** in accessibility settings.  
+   If the overlay toggle is greyed out, reinstall the latest APK or run:
    ```bash
    adb shell appops set id.sooon.dashlock SYSTEM_ALERT_WINDOW allow
    ```
-3. Di **Status DashLock** → nyalakan **Aktifkan DashLock**.
-4. (Opsional) Di **Buka kunci** → nyalakan **Wajib PIN** lalu **Atur / ganti PIN** (4–6 digit).
+3. Under **DashLock status**, turn on **Enable DashLock**.
+4. (Optional) Under **Unlock**, enable **PIN required to unlock** and set a PIN (4–6 digits).
 
-### Default pengaturan (instal baru)
+### Default settings (fresh install)
 
-| Pengaturan | Default |
-|------------|---------|
-| Konfirmasi sebelum mengunci | ON |
-| Wajib PIN saat membuka | OFF |
-| Gestur buka kunci | Tahan 2 detik |
-| Aktifkan DashLock | OFF (user menyalakan sendiri) |
+| Setting | Default |
+|---------|---------|
+| Confirm before locking | ON |
+| PIN required to unlock | OFF |
+| Unlock gesture | Hold 2 seconds |
+| Enable DashLock | OFF (you turn it on) |
 
-Semua disimpan di `SharedPreferences` (persisten setelah reboot).
+All settings persist in `SharedPreferences` across reboots.
 
-## Cara pakai
+## Usage
 
-| Aksi | Gestur |
-|------|--------|
-| Pindah tombol | Tahan & geser; lepas → snap kiri/kanan |
-| Kunci | Tahan tombol ~0,2 detik (tanpa geser) → konfirmasi jika diaktifkan |
-| Buka (tahan) | Saat terkunci: tahan 1–3 detik (sesuai pengaturan) → PIN jika wajib |
-| Buka (ketuk) | Saat terkunci: ketuk 3× cepat → PIN jika wajib |
+| Action | Gesture |
+|--------|---------|
+| Move button | Press and drag; release to snap left/right |
+| Lock | Hold the button ~0.2 s without moving → confirm if enabled |
+| Unlock (hold) | While locked: hold 1–3 s (per settings) → PIN if required |
+| Unlock (tap) | While locked: triple-tap quickly → PIN if required |
 
-Matikan **Aktifkan DashLock** untuk menghilangkan tombol (hanya saat layar **tidak** terkunci).
+Turn off **Enable DashLock** to hide the button (only when the screen is **not** locked).
 
-## UI pengaturan
+## Settings UI
 
-1. **Status DashLock** — toggle aktif, pesan status, ringkasan gestur  
-2. **Kunci** — konfirmasi sebelum mengunci  
-3. **Buka kunci** — PIN, gestur, durasi tahan  
-4. **Izin** — overlay & aksesibilitas  
+1. **DashLock status** — enable toggle, status text, gesture summary  
+2. **Lock** — confirm before locking  
+3. **Unlock** — PIN, gesture mode, hold duration  
+4. **Permissions** — overlay and accessibility  
 
-## Build (pengembang)
+## Build (developers)
 
 ```bash
 chmod +x build.sh
@@ -85,14 +88,14 @@ chmod +x build.sh
 ```
 
 - `minSdk 24`, `targetSdk 29`, package `id.sooon.dashlock`
-- Rilis produksi: siapkan `dashlock.keystore` atau set `DASHLOCK_KS_PASS`
+- Production signing: add `dashlock.keystore` or set `DASHLOCK_KS_PASS`
 
-## Batasan
+## Limitations
 
-- Tombol **POWER** tidak bisa diblok sepenuhnya.
-- Beberapa firmware masih mengizinkan status bar / notifikasi.
-- Layanan aksesibilitas harus tetap di-enable di Settings; saat DashLock nonaktif, tidak ada blok tombol.
+- **POWER** cannot be fully blocked.
+- Some firmware still allows the status bar / notification shade.
+- Accessibility must stay enabled in system settings; when DashLock is disabled, keys are not blocked.
 
-## Lisensi
+## License
 
-MIT — lihat [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
