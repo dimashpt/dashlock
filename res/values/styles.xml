@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#FF0B0B0A</color>
+    <color name="panel">#FF151513</color>
+    <color name="text">#FFECE6D8</color>
+    <color name="dim">#FF8A8478</color>
+    <color name="amber">#FFFFB000</color>
+    <color name="ok">#FF4CAF50</color>
+    <color name="bad">#FFE57373</color>
+
+    <style name="DashLock" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

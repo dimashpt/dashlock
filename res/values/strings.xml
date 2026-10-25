@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DashLock</string>
+    <string name="accessibility_description">Memblok tombol HOME, BACK, dan volume saat layar dikunci DashLock.</string>
+    <string name="notification_channel">DashLock</string>
+    <string name="notification_title">DashLock aktif</string>
+    <string name="notification_unlocked">Layar tidak terkunci</string>
+    <string name="notification_locked">Layar terkunci</string>
+</resources>
