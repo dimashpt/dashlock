@@ -2,6 +2,7 @@ package id.sooon.dashlock;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.Context;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -9,6 +10,10 @@ import android.view.accessibility.AccessibilityEvent;
  * Menelan tombol sistem saat DashLock aktif dan layar terkunci.
  */
 public class LockAccessibilityService extends AccessibilityService {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
 
     @Override
     public void onServiceConnected() {

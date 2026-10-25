@@ -11,6 +11,11 @@ import android.os.Build;
 import android.os.IBinder;
 
 public class LockService extends Service {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.wrap(base));
+    }
+
     static final String ACTION_STOP = "id.sooon.dashlock.STOP";
     static final String ACTION_SYNC = "id.sooon.dashlock.SYNC";
     private static final int NOTIF_ID = 1;
@@ -43,13 +48,15 @@ public class LockService extends Service {
         }
         ensureChannel();
         startForeground(NOTIF_ID, buildNotification());
+        boolean sync = intent != null && ACTION_SYNC.equals(intent.getAction());
+        if (sync && overlay != null) {
+            overlay.detach();
+            overlay = null;
+        }
         if (overlay == null) overlay = new OverlayController(this);
         overlay.attach();
-        if (intent != null && ACTION_SYNC.equals(intent.getAction()) && overlay != null) {
-            overlay.refreshState();
-            return START_STICKY;
-        }
         overlay.refreshState();
+        if (sync) updateNotification();
         return START_STICKY;
     }
 

@@ -31,12 +31,13 @@ Settings on a head unit (landscape), with the semi-transparent floating DashLock
 - **Lock confirmation** — optional (default **on**).
 - **Unlock** — hold 1–3 seconds **or** triple-tap; optional PIN (default **gesture only**).
 - **PIN** — SHA-256 hash + salt; keyboard auto-shown when PIN is required; IME Done submits.
-- **Toasts** — “Screen locked” / “Screen unlocked” (Indonesian strings in the app UI).
+- **Languages** — English (default) and Indonesian; choice in Settings, persisted across reboots.
+- **Toasts** — “Screen locked” / “Screen unlocked” (localized).
 - **After reboot** — restarts automatically if DashLock was left enabled (boot + user unlock).
 
 ## Download
 
-Release APK: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.0.0.apk`).
+Release APK: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.1.0.apk`).
 
 ## Requirements
 
@@ -91,7 +92,7 @@ Turn off **Enable DashLock** to hide the button (only when the screen is **not**
 ```bash
 chmod +x build.sh
 ./build.sh              # build/dashlock.apk (debug keystore)
-./build.sh release      # build/dashlock-1.0.0.apk
+./build.sh release      # build/dashlock-1.1.0.apk
 ./build.sh install      # DEVICE=ip:5555
 ```
 

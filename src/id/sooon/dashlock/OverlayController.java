@@ -36,7 +36,7 @@ final class OverlayController implements FabView.Listener {
 
     OverlayController(LockService service) {
         this.service = service;
-        this.app = service.getApplicationContext();
+        this.app = LocaleHelper.wrap(service);
         this.wm = (WindowManager) app.getSystemService(Context.WINDOW_SERVICE);
         marginPx = (int) (12 * app.getResources().getDisplayMetrics().density + 0.5f);
     }
@@ -220,7 +220,7 @@ final class OverlayController implements FabView.Listener {
             Prefs.setLocked(app, true);
             if (fab != null) fab.cancelHold();
             refreshState();
-            toast("Layar dikunci");
+            toast(app.getString(R.string.toast_locked));
             return;
         }
         showConfirmLock();
@@ -233,7 +233,7 @@ final class OverlayController implements FabView.Listener {
             if (fab != null) fab.cancelHold();
             Prefs.setLocked(app, false);
             refreshState();
-            toast("Layar dibuka");
+            toast(app.getString(R.string.toast_unlocked));
             return;
         }
         showPinUnlock();
@@ -248,24 +248,24 @@ final class OverlayController implements FabView.Listener {
         modalRoot.removeAllViews();
         modalRoot.setBackgroundColor(0x99000000);
         LinearLayout card = card();
-        TextView title = label("Kunci layar?", 20, true);
+        TextView title = label(app.getString(R.string.confirm_lock_title), 20, true);
         card.addView(title);
-        card.addView(label("Anak tidak bisa menyentuh layar sampai Anda membuka kunci.", 14, false));
+        card.addView(label(app.getString(R.string.confirm_lock_message), 14, false));
         LinearLayout row = new LinearLayout(app);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.END);
         row.setPadding(0, dp(16), 0, 0);
-        Button cancel = btn("Batal", false);
+        Button cancel = btn(app.getString(R.string.cancel), false);
         cancel.setOnClickListener(v -> {
             if (fab != null) fab.cancelHold();
             hideModalLayer();
         });
-        Button ok = btn("Kunci", true);
+        Button ok = btn(app.getString(R.string.lock), true);
         ok.setOnClickListener(v -> {
             Prefs.setLocked(app, true);
             hideModalLayer();
             refreshState();
-            toast("Layar dikunci");
+            toast(app.getString(R.string.toast_locked));
         });
         row.addView(cancel);
         row.addView(ok);
@@ -280,13 +280,13 @@ final class OverlayController implements FabView.Listener {
         modalRoot.removeAllViews();
         modalRoot.setBackgroundColor(0x99000000);
         LinearLayout card = card();
-        card.addView(label("Masukkan PIN", 20, true));
+        card.addView(label(app.getString(R.string.enter_pin), 20, true));
         EditText pin = new EditText(app);
         pin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         pin.setImeOptions(EditorInfo.IME_ACTION_DONE);
         pin.setTextColor(0xFFECE6D8);
         pin.setHintTextColor(0xFF8A8478);
-        pin.setHint("4–6 digit");
+        pin.setHint(app.getString(R.string.pin_hint_digits));
         pin.setBackgroundColor(0xFF151513);
         pin.setPadding(dp(12), dp(12), dp(12), dp(12));
         card.addView(pin, new LinearLayout.LayoutParams(
@@ -301,9 +301,9 @@ final class OverlayController implements FabView.Listener {
                 Prefs.setLocked(app, false);
                 hideModalLayer();
                 refreshState();
-                toast("Layar dibuka");
+                toast(app.getString(R.string.toast_unlocked));
             } else {
-                err.setText("PIN salah");
+                err.setText(app.getString(R.string.pin_wrong));
                 pin.selectAll();
             }
         };
@@ -320,13 +320,13 @@ final class OverlayController implements FabView.Listener {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.END);
         row.setPadding(0, dp(12), 0, 0);
-        Button cancel = btn("Batal", false);
+        Button cancel = btn(app.getString(R.string.cancel), false);
         cancel.setOnClickListener(v -> {
             hideIme(pin);
             if (fab != null) fab.cancelHold();
             hideModalLayer();
         });
-        Button ok = btn("Buka", true);
+        Button ok = btn(app.getString(R.string.unlock), true);
         ok.setOnClickListener(v -> submit.run());
         row.addView(cancel);
         row.addView(ok);

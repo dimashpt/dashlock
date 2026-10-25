@@ -24,12 +24,13 @@ Pengaturan di head unit (landscape), dengan tombol floating DashLock di kanan:
 - **Konfirmasi kunci** — opsional (default **aktif**).
 - **Buka kunci** — tahan 1–3 detik **atau** ketuk 3×; PIN opsional (default **tanpa PIN**, cukup gestur).
 - **PIN** — hash SHA-256 + salt; keyboard otomatis saat PIN wajib; tombol centang keyboard = submit.
-- **Toast** — 「Layar dikunci」 / 「Layar dibuka」.
+- **Bahasa** — Inggris (default) dan Indonesia; pilih di pengaturan, tersimpan setelah reboot.
+- **Toast** — 「Layar dikunci」 / 「Layar dibuka」 (sesuai bahasa).
 - **Setelah reboot** — jika DashLock terakhir aktif, layanan overlay menyala lagi (boot + user unlock).
 
 ## Unduh
 
-APK rilis: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.0.0.apk`).
+APK rilis: **[Releases](https://github.com/dimashpt/dashlock/releases/latest)** (`dashlock-1.1.0.apk`).
 
 ## Persyaratan
 
@@ -84,7 +85,7 @@ Matikan **Aktifkan DashLock** untuk menghilangkan tombol (hanya saat layar **tid
 ```bash
 chmod +x build.sh
 ./build.sh              # build/dashlock.apk (debug keystore)
-./build.sh release      # build/dashlock-1.0.0.apk
+./build.sh release      # build/dashlock-1.1.0.apk
 ./build.sh install      # DEVICE=ip:5555
 ```
 

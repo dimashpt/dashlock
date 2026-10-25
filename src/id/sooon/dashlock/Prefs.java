@@ -13,10 +13,15 @@ final class Prefs {
     static final int UNLOCK_HOLD = 0;
     static final int UNLOCK_TRIPLE_TAP = 1;
 
+    static final String LANG_EN = "en";
+    static final String LANG_ID = "id";
+
     private Prefs() { }
 
     static SharedPreferences sp(Context c) {
-        return c.getApplicationContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        Context app = c.getApplicationContext();
+        if (app == null) app = c;
+        return app.getSharedPreferences(NAME, Context.MODE_PRIVATE);
     }
 
     private static void save(SharedPreferences.Editor e) {
@@ -95,5 +100,16 @@ final class Prefs {
 
     static void setUnlockRequirePin(Context c, boolean v) {
         save(sp(c).edit().putBoolean("unlock_require_pin", v));
+    }
+
+    static String language(Context c) {
+        String lang = sp(c).getString("language", LANG_EN);
+        if (!LANG_ID.equals(lang)) lang = LANG_EN;
+        return lang;
+    }
+
+    static void setLanguage(Context c, String lang) {
+        if (!LANG_ID.equals(lang)) lang = LANG_EN;
+        save(sp(c).edit().putString("language", lang));
     }
 }

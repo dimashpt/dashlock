@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DashLock</string>
+    <string name="accessibility_description">Memblok tombol HOME, BACK, dan volume saat layar dikunci DashLock.</string>
+    <string name="notification_channel">DashLock</string>
+    <string name="notification_title">DashLock aktif</string>
+    <string name="notification_unlocked">Layar tidak terkunci</string>
+    <string name="notification_locked">Layar terkunci</string>
+
+    <string name="lang_english">English</string>
+    <string name="lang_indonesian">Bahasa Indonesia</string>
+    <string name="section_language">Bahasa</string>
+
+    <string name="section_status">Status DashLock</string>
+    <string name="toggle_enable">Aktifkan DashLock</string>
+    <string name="hint_locked_tap">Layar terkunci. Ketuk tombol 3× cepat%1$s.</string>
+    <string name="hint_locked_hold">Layar terkunci. Tahan tombol %1$d detik%2$s.</string>
+    <string name="hint_then_pin"> lalu masukkan PIN</string>
+    <string name="hint_pin_required">Aktifkan PIN buka kunci dan atur PIN, atau matikan PIN buka kunci.</string>
+    <string name="hint_permissions">Lengkapi izin di bawah, lalu aktifkan DashLock.</string>
+    <string name="hint_ready">DashLock siap. Tombol kuning transparan muncul di atas aplikasi lain.</string>
+    <string name="help_lock_confirm">tahan tombol sebentar (konfirmasi)</string>
+    <string name="help_lock">tahan tombol sebentar</string>
+    <string name="help_unlock_tap">ketuk 3× cepat</string>
+    <string name="help_unlock_hold">tahan %1$d detik</string>
+    <string name="help_unlock_pin"> lalu PIN</string>
+    <string name="help_summary">Kunci: %1$s. Buka: %2$s. Geser tombol untuk pindah; lepas menempel kiri/kanan.</string>
+
+    <string name="section_lock">Kunci</string>
+    <string name="lock_confirm">Konfirmasi sebelum mengunci</string>
+    <string name="lock_note">Tahan tombol floating sebentar untuk mengunci layar.</string>
+
+    <string name="section_unlock">Buka kunci</string>
+    <string name="unlock_require_pin">Wajib PIN saat membuka</string>
+    <string name="pin_set_change">Atur / ganti PIN</string>
+    <string name="unlock_gesture">Gestur buka kunci</string>
+    <string name="unlock_hold_mode">Tahan tombol (1–3 detik)</string>
+    <string name="unlock_tap_mode">Ketuk tiga kali</string>
+    <string name="hold_duration_label">Durasi tahan buka kunci</string>
+    <string name="hold_sec_btn">%1$d dtk</string>
+
+    <string name="section_permissions">Izin</string>
+    <string name="overlay_granted">Overlay: diizinkan</string>
+    <string name="overlay_denied">Overlay: belum</string>
+    <string name="a11y_granted">Aksesibilitas: aktif</string>
+    <string name="a11y_denied">Aksesibilitas: belum</string>
+    <string name="open_overlay_settings">Buka pengaturan overlay</string>
+    <string name="open_a11y_settings">Buka pengaturan aksesibilitas</string>
+
+    <string name="dialog_permissions_title">Izin belum lengkap</string>
+    <string name="dialog_permissions_message">Izinkan tampil di atas aplikasi lain dan aktifkan layanan DashLock di Aksesibilitas.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Batal</string>
+    <string name="save">Simpan</string>
+
+    <string name="pin_dialog_title">PIN DashLock</string>
+    <string name="pin_hint_new">PIN baru (4–6 digit)</string>
+    <string name="pin_invalid">PIN harus 4–6 digit angka.</string>
+
+    <string name="toast_locked">Layar dikunci</string>
+    <string name="toast_unlocked">Layar dibuka</string>
+    <string name="confirm_lock_title">Kunci layar?</string>
+    <string name="confirm_lock_message">Anak tidak bisa menyentuh layar sampai Anda membuka kunci.</string>
+    <string name="lock">Kunci</string>
+    <string name="unlock">Buka</string>
+    <string name="enter_pin">Masukkan PIN</string>
+    <string name="pin_hint_digits">4–6 digit</string>
+    <string name="pin_wrong">PIN salah</string>
+</resources>
